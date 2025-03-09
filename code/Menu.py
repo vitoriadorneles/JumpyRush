@@ -9,7 +9,7 @@ class Menu:
     def __init__(self, window):
         self.window = window
         # upload the image
-        self.surf = pygame.image.load('./assets/MenuBg.png')
+        self.surf = pygame.image.load('./assets/MenuBg.png').convert_alpha()
         # Creating a rectangle to place the image
         self.rect = self.surf.get_rect(left=0, top=0)
 
@@ -80,7 +80,7 @@ class Menu:
                         return MENU_OPTION[menu_option]
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
-        text_font: Font = pygame.font.Font("./assets/my_font.ttf", text_size)
+        text_font: Font = pygame.font.Font("./assets/MenuFont.ttf", text_size)
         text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
         text_rect: Rect = text_surf.get_rect(center=text_center_pos)
         self.window.blit(source=text_surf, dest=text_rect)

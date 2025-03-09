@@ -9,9 +9,9 @@ C_BLACK = (0, 0, 0)
 # E
 ENTITY_SPEED = {
     'Level1Bg0': 1,
-    'Level1Bg1': 2,
-    'Level1Bg2': 3,
-    'Level1Bg3': 4,
+    'Level1Bg1': 3,
+    'Level1Bg2': 4,
+    'Level1Bg3': 5,
 }
 
 # M
