@@ -2,7 +2,8 @@ import pygame.image
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import WIN_WIDTH, C_PURPLE, MENU_OPTION, C_WHITE, C_BLACK, BTN_SIZE
+from code.Const import WIN_WIDTH, C_PURPLE, MENU_OPTION, C_WHITE, C_BLACK, BTN_SIZE, WIN_HEIGHT
+from code.Player import Player
 
 
 class Menu:
@@ -33,12 +34,6 @@ class Menu:
             self.menu_text(50, 'Jumpy', C_PURPLE, ((WIN_WIDTH / 2), 70))
             self.menu_text(50, 'Rush', C_PURPLE, ((WIN_WIDTH / 2), 120))
 
-            # Get the mouse position
-            #mouse_pos = pygame.mouse.get_pos()
-            #mouse_clicked = pygame.mouse.get_pressed()[0]  # Check if the left button has been pressed
-
-            options_rects = []
-
             # Draw menu options and store their rects
             #start_y = self.btn_rect.bottom + 20
             for i in range(len(MENU_OPTION)):
@@ -55,7 +50,6 @@ class Menu:
                 if event.type == pygame.QUIT:
                     pygame.quit()  # close window
                     quit()  # emd pygame
-
 
                 # Check the Key pressed
                 if event.type == pygame.KEYDOWN:

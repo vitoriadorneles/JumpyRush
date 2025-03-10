@@ -7,6 +7,7 @@ from pygame.font import Font
 from code.Const import C_PURPLE, WIN_HEIGHT
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
+from code.Player import Player
 
 
 class Level:
@@ -17,6 +18,10 @@ class Level:
         self.entity_list: list[Entity] = []
         self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
         self.timeout = 2000
+
+        self.player_images = EntityFactory.get_entity("PlayerImg")
+        self.current_player_image_index = 0
+        self.animation_counter = 0
 
     def run(self, ):
         pygame.mixer_music.load(f'./assets/{self.name}.mp3')
@@ -31,6 +36,17 @@ class Level:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+            # Update the player animation index
+            self.animation_counter += 3
+            if self.animation_counter > 25:
+                self.animation_counter = 0
+                self.current_player_image_index = (self.current_player_image_index + 1) % len(self.player_images)
+
+            current_player = self.player_images[self.current_player_image_index]
+            self.window.blit(current_player.image, current_player.rect.topleft)
+
+            pygame.display.flip()
 
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000: .1f}s', C_PURPLE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps() :0f}', C_PURPLE, (10, WIN_HEIGHT - 35))

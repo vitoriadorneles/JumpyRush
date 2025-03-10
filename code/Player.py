@@ -7,13 +7,8 @@ class Player(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
 
-        self.sprites = [
-            pygame.image.load(f'./assets/PlayerImg{i}.png').convert_alpha() for i in range(7)
-        ]
-        self.current_sprite = 0
-        self.image = self.sprites[self.current_sprite]
-        self.rect = self.image.get_rect(midbottom=position)
-
+        self.image = pygame.image.load(f'./assets/{name}.png')
+        self.rect = self.image.get_rect(topleft=position)
         self.animation_time = 1
         self.animation_speed = 100
 
