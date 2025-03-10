@@ -14,10 +14,10 @@ class Menu:
         self.rect = self.surf.get_rect(left=0, top=0)
 
         # upload button images
-        self.btn_unpressed = pygame.transform.scale(pygame.image.load('./assets/Button_unpressed.png'), BTN_SIZE)
-        self.btn_pressed = pygame.transform.scale(pygame.image.load('./assets/Button_pressed.png'), BTN_SIZE)
+        #self.btn_unpressed = pygame.transform.scale(pygame.image.load('./assets/Button_unpressed.png'), BTN_SIZE)
+        #self.btn_pressed = pygame.transform.scale(pygame.image.load('./assets/Button_pressed.png'), BTN_SIZE)
 
-        self.btn_rect = self.btn_unpressed.get_rect(center=(WIN_WIDTH / 2, 190))
+        #self.btn_rect = self.btn_unpressed.get_rect(center=(WIN_WIDTH / 2, 190))
 
     def run(self):
         menu_option = 0
@@ -34,13 +34,13 @@ class Menu:
             self.menu_text(50, 'Rush', C_PURPLE, ((WIN_WIDTH / 2), 120))
 
             # Get the mouse position
-            mouse_pos = pygame.mouse.get_pos()
-            mouse_clicked = pygame.mouse.get_pressed()[0]  # Check if the left button has been pressed
+            #mouse_pos = pygame.mouse.get_pos()
+            #mouse_clicked = pygame.mouse.get_pressed()[0]  # Check if the left button has been pressed
 
             options_rects = []
 
             # Draw menu options and store their rects
-            start_y = self.btn_rect.bottom + 20
+            #start_y = self.btn_rect.bottom + 20
             for i in range(len(MENU_OPTION)):
                 if i == menu_option:
                     self.menu_text(20, MENU_OPTION[i], C_WHITE, ((WIN_WIDTH / 2), 190 + 30 * i))
