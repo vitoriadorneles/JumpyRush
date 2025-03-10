@@ -56,13 +56,6 @@ class Menu:
                     pygame.quit()  # close window
                     quit()  # emd pygame
 
-                # Check if the mouse is over the button
-                if self.btn_rect.collidepoint(mouse_pos):
-                    new_game_color = C_WHITE
-                    btn_image = self.btn_pressed if mouse_clicked else self.btn_unpressed
-                else:
-                    new_game_color = C_BLACK
-                    btn_image = self.btn_unpressed
 
                 # Check the Key pressed
                 if event.type == pygame.KEYDOWN:

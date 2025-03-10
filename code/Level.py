@@ -21,12 +21,12 @@ class Level:
     def run(self, ):
         pygame.mixer_music.load(f'./assets/{self.name}.mp3')
         pygame.mixer_music.play(-1)
-        #clock = pygame.time.Clock()
+        clock = pygame.time.Clock()
         while True:
-          #  clock.tick(60)
-          #for ent in self.entity_list:
-           #     self.window.blit(source=ent.surf, dest=ent.rect)
-            #    ent.move()
+            clock.tick(60)
+            for ent in self.entity_list:
+                self.window.blit(source=ent.surf, dest=ent.rect)
+                ent.move()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

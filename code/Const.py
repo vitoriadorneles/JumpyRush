@@ -17,6 +17,16 @@ ENTITY_SPEED = {
 # M
 MENU_OPTION = ('NEW GAME', 'SCORE', 'EXIT',)
 
+# P
+PLAYER_IMG = [
+    'PlayerImg0',
+    'PlayerImg0',
+    'PlayerImg0',
+    'PlayerImg0',
+    'PlayerImg0',
+    'PlayerImg0',
+]
+
 # W
 WIN_WIDTH = 576
 WIN_HEIGHT = 324
