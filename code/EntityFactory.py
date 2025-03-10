@@ -18,4 +18,5 @@ class EntityFactory:
             case 'Player':
                 player_img = []
                 for i in range(7):
-                    return Player(f'PlayerImg{i}', (25, WIN_HEIGHT - 50))
+                    player_img.append(Player(f'PlayerImg{i}', (25, WIN_HEIGHT - 50)))
+                return player_img
