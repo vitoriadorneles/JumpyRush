@@ -1,7 +1,8 @@
 import sys
+import time
 
 import pygame.display
-from pygame import Surface, Rect
+from pygame import Surface, Rect, KEYDOWN, K_SPACE
 from pygame.font import Font
 
 from code.Const import C_PURPLE, WIN_HEIGHT
@@ -22,20 +23,30 @@ class Level:
         self.player_images = EntityFactory.get_entity("PlayerImg")
         self.current_player_image_index = 0
         self.animation_counter = 0
+        self.player = self.player = Player("PlayerImg0", (25, WIN_HEIGHT - 130))
 
     def run(self, ):
         pygame.mixer_music.load(f'./assets/{self.name}.mp3')
         pygame.mixer_music.play(-1)
         clock = pygame.time.Clock()
+
         while True:
             clock.tick(60)
+
             for ent in self.entity_list:
                 self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+                if event.type == KEYDOWN:
+                    if event.key == K_SPACE:
+                        self.player.jump()
+
+            self.player.update()
 
             # Update the player animation index
             self.animation_counter += 3
@@ -44,6 +55,7 @@ class Level:
                 self.current_player_image_index = (self.current_player_image_index + 1) % len(self.player_images)
 
             current_player = self.player_images[self.current_player_image_index]
+            current_player.rect.topleft = self.player.rect.topleft
             self.window.blit(current_player.image, current_player.rect.topleft)
 
             pygame.display.flip()

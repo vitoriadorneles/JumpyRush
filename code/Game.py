@@ -6,6 +6,8 @@ from code.Const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION
 from code.Level import Level
 from code.Menu import Menu
 
+pygame.display.set_caption("Jumpy Rush")
+
 
 class Game:
     def __init__(self):
@@ -28,4 +30,3 @@ class Game:
                 quit()
             else:
                 pass
-
