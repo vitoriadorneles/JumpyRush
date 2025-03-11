@@ -12,11 +12,9 @@ ENTITY_SPEED = {
     'Level1Bg1': 3,
     'Level1Bg2': 4,
     'Level1Bg3': 5,
+
 }
 
-# J
-JUMP = 20
-JUMP_TWICE = 25
 
 # M
 MENU_OPTION = ('NEW GAME', 'SCORE', 'EXIT',)

@@ -1,6 +1,6 @@
 import pygame
 
-from code.Const import JUMP, WIN_HEIGHT
+from code.Const import WIN_HEIGHT
 from code.Entity import Entity
 
 
@@ -25,13 +25,14 @@ class Player(Entity):
         if self.jumping:
             if self.rect.y <= 100:
                 self.jumping = False
-            self.rect.y -= JUMP
+            self.rect.centery -= 10
 
         else:
             if self.rect.y < self.initial_position:
-                self.rect.y += JUMP
+                self.rect.y += 10
             else:
                 self.rect.y = self.initial_position
 
     def move(self):
+
         pass
