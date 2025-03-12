@@ -27,6 +27,7 @@ class Level:
         self.current_player_image_index = 0
         self.animation_counter = 0
 
+
         self.obstacle2_images = EntityFactory.get_entity("Obstacle2Img")  # Lista de imagens
         self.current_obstacle2_image_index = 0
         self.obstacle2_animation_counter = 0

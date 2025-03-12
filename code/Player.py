@@ -23,13 +23,13 @@ class Player(Entity):
 
     def updateJump(self):
         if self.jumping:
-            if self.rect.y <= 100:
+            if self.rect.y <= 80:
                 self.jumping = False
-            self.rect.centery -= 10
+            self.rect.centery -= 7
 
         else:
             if self.rect.y < self.initial_position:
-                self.rect.y += 10
+                self.rect.y += 7
             else:
                 self.rect.y = self.initial_position
 
