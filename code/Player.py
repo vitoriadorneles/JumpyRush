@@ -1,6 +1,6 @@
 import pygame
 
-from code.Const import WIN_HEIGHT
+from code.Const import WIN_HEIGHT, WIN_WIDTH
 from code.Entity import Entity
 
 
@@ -21,7 +21,7 @@ class Player(Entity):
     def jump(self):
         self.jumping = True
 
-    def update(self):
+    def updateJump(self):
         if self.jumping:
             if self.rect.y <= 100:
                 self.jumping = False
@@ -34,5 +34,9 @@ class Player(Entity):
                 self.rect.y = self.initial_position
 
     def move(self):
+        pressed_key = pygame.key.get_pressed()
+        if pressed_key[pygame.K_LEFT] and self.rect.left > 0:
+            self.rect.centerx -= 5
+        if pressed_key[pygame.K_RIGHT] and self.rect.right < WIN_WIDTH:
+            self.rect.centerx += 5
 
-        pass

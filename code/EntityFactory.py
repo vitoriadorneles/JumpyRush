@@ -1,5 +1,6 @@
 from code.Background import Background
 from code.Const import WIN_HEIGHT, WIN_WIDTH
+from code.Obstacle import Obstacle
 
 from code.Player import Player
 
@@ -21,3 +22,14 @@ class EntityFactory:
                     bg_list.append(Background(f'Level1Bg{i}', (0, 0)))
                     bg_list.append(Background(f'Level1Bg{i}', (WIN_WIDTH, 0)))
                 return bg_list
+
+            case 'Obstacle1Img0':
+                return Obstacle('Obstacle1Img0', (WIN_WIDTH + 10, 200))
+            case 'Obstacle1Img1':
+                return Obstacle('Obstacle1Img1', (WIN_WIDTH + 15, 200))
+
+            case 'Obstacle2Img':
+                obs_two_list = []
+                for i in range(4):
+                    obs_two_list.append(Obstacle(f'Obstacle2Img{i}', (WIN_WIDTH + 5, 200)))
+                return obs_two_list
