@@ -14,8 +14,7 @@ class Obstacle(Entity):
 
     def move(self):
         self.rect.centerx -= 5
-        if self.rect.right <= 0:
-            self.rect.left = WIN_WIDTH
+
 
     def update(self):
         pass

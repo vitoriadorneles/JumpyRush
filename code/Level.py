@@ -15,6 +15,7 @@ from code.Player import Player
 
 class Level:
     def __init__(self, window, name, game):
+        self.EVENT_OBSTACLE = None
         self.window = window
         self.name = name
         self.game = game
@@ -27,13 +28,12 @@ class Level:
         self.current_player_image_index = 0
         self.animation_counter = 0
 
-
         self.obstacle2_images = EntityFactory.get_entity("Obstacle2Img")  # Lista de imagens
+        self.entity_list.extend(self.obstacle2_images)
         self.current_obstacle2_image_index = 0
         self.obstacle2_animation_counter = 0
 
-        pygame.time.set_timer(EVENT_OBSTACLE, 2000)
-
+        pygame.time.set_timer(EVENT_OBSTACLE, 3000)
 
     def run(self, ):
         pygame.mixer_music.load(f'./assets/{self.name}.mp3')
@@ -51,7 +51,7 @@ class Level:
                 else:
                     self.window.blit(source=ent.surf, dest=ent.rect)
                     ent.move()
-
+            # checking all the events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -60,12 +60,13 @@ class Level:
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
                         self.player.jump()
+
                 if event.type == EVENT_OBSTACLE:
-                    choice = random.choice(('Obstacle1Img0','Obstacle1Img0'))
+                    choice = random.choice(('Obstacle1Img0', 'Obstacle1Img1'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
 
             for obs in self.obstacle2_images:
-                obs.rect.x -= 5
+                obs.rect.x -= 6
                 if obs.rect.left <= 0:
                     obs.rect.x = WIN_WIDTH
 
@@ -82,7 +83,13 @@ class Level:
             self.obstacle2_animation_counter += 3
             if self.obstacle2_animation_counter > 25:
                 self.obstacle2_animation_counter = 0
-                self.current_obstacle2_image_index = (self.current_player_image_index + 1) % len(self.obstacle2_images)
+                self.current_obstacle2_image_index = (self.current_obstacle2_image_index + 1) % len(
+                    self.obstacle2_images)
+
+            if EntityMediator.check_collision(self.player, self.entity_list):
+                self.player.health -= 10  # Reduz a saúde do jogador
+                if self.player.health <= 0:
+                    print("Game Over!")
 
             current_player = self.player_images[self.current_player_image_index]
             current_player.rect.topleft = self.player.rect.topleft
@@ -96,10 +103,11 @@ class Level:
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000: .1f}s', C_PURPLE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps() :0f}', C_PURPLE, (10, WIN_HEIGHT - 35))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_PURPLE, (10, WIN_HEIGHT - 20))
-            pygame.display.flip()
-            EntityMediator.verify_collision(entity_list=self.entity_list)
 
-            pass
+            EntityMediator.verify_collision(entity_list=self.entity_list)
+            EntityMediator.verify_health(entity_list=self.entity_list)
+
+        pass
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.Font("./assets/LevelFont.ttf", text_size)

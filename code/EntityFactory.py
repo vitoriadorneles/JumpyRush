@@ -24,9 +24,10 @@ class EntityFactory:
                 return bg_list
 
             case 'Obstacle1Img0':
-                return Obstacle('Obstacle1Img0', (WIN_WIDTH + 10, 200))
+                return Obstacle('Obstacle1Img0', (WIN_WIDTH + 50, 220))
+
             case 'Obstacle1Img1':
-                return Obstacle('Obstacle1Img1', (WIN_WIDTH + 15, 200))
+                return Obstacle('Obstacle1Img1', (WIN_WIDTH + 20, 200))
 
             case 'Obstacle2Img':
                 obs_two_list = []
