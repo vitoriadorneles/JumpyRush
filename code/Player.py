@@ -27,6 +27,7 @@ class Player(Entity):
                 self.jumping = False
             self.rect.centery -= 7
 
+
         else:
             if self.rect.y < self.initial_position:
                 self.rect.y += 7

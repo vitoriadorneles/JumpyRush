@@ -60,6 +60,8 @@ class Level:
                 if event.type == KEYDOWN:
                     if event.key == K_SPACE:
                         self.player.jump()
+                        jump_sound = pygame.mixer.Sound('./assets/JumpSong.mp3')
+                        jump_sound.play()
 
                 if event.type == EVENT_OBSTACLE:
                     choice = random.choice(('Obstacle1Img0', 'Obstacle1Img1'))
@@ -94,11 +96,12 @@ class Level:
             current_player = self.player_images[self.current_player_image_index]
             current_player.rect.topleft = self.player.rect.topleft
             self.window.blit(current_player.image, current_player.rect.topleft)
+            pygame.display.flip()
 
             current_obstacle2 = self.obstacle2_images[self.current_obstacle2_image_index]
             current_obstacle2.rect.topleft = obs.rect.topleft
             self.window.blit(current_obstacle2.image, current_obstacle2.rect.topleft)
-            pygame.display.flip()
+
 
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000: .1f}s', C_PURPLE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps() :0f}', C_PURPLE, (10, WIN_HEIGHT - 35))

@@ -15,6 +15,5 @@ class Obstacle(Entity):
     def move(self):
         self.rect.centerx -= 5
 
-
     def update(self):
         pass
