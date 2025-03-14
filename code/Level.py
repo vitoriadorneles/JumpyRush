@@ -78,9 +78,9 @@ class Level:
 
             # Atualizando e movendo o obstáculo atual
             current_obstacle2 = self.obstacle2_images[self.current_obstacle2_image_index]
-            current_obstacle2.rect.x -= 6  # Movendo para a esquerda
-            if current_obstacle2.rect.left <= 0:  # Quando sair completamente da tela à esquerda
-                current_obstacle2.rect.x = WIN_WIDTH  # Reinicie na borda direita
+            current_obstacle2.rect.centerx -= 6  # Movendo para a esquerda
+            if current_obstacle2.rect.right <= 0:  # Quando sair completamente da tela à esquerda
+                current_obstacle2.rect.left = WIN_WIDTH  # Reinicie na borda direita
 
             self.window.blit(current_obstacle2.image, current_obstacle2.rect)  # Renderizando o obstáculo
 
