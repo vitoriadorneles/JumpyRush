@@ -69,21 +69,6 @@ class Level:
                     choice = random.choice(('Obstacle1Img0', 'Obstacle1Img1'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
 
-            # Atualizando os frames de animação dos obstáculos (controle de delay)
-            self.obstacle2_animation_counter += clock.get_time()
-            if self.obstacle2_animation_counter > 120:  # Delay de 100ms entre os frames
-                self.obstacle2_animation_counter = 0
-                self.current_obstacle2_image_index = (self.current_obstacle2_image_index + 1) % len(
-                    self.obstacle2_images)
-
-            # Atualizando e movendo o obstáculo atual
-            current_obstacle2 = self.obstacle2_images[self.current_obstacle2_image_index]
-            current_obstacle2.rect.centerx -= 6  # Movendo para a esquerda
-            if current_obstacle2.rect.right <= 0:  # Quando sair completamente da tela à esquerda
-                current_obstacle2.rect.left = WIN_WIDTH  # Reinicie na borda direita
-
-            self.window.blit(current_obstacle2.image, current_obstacle2.rect)  # Renderizando o obstáculo
-
             # Atualizando e desenhando o player
             self.player.updateJump()
             self.player.move()
@@ -96,8 +81,20 @@ class Level:
             current_player.rect.topleft = self.player.rect.topleft
             self.window.blit(current_player.image, current_player.rect)
 
-            # Atualização da tela
-            pygame.display.flip()
+            for obs in self.obstacle2_images:
+                obs.rect.x -= 6
+                if obs.rect.left <= 0:
+                    obs.rect.x = WIN_WIDTH
+
+            self.obstacle2_animation_counter += 5
+            if self.obstacle2_animation_counter > 25:  # Ajuste o valor para controlar a velocidade da animação
+                self.obstacle2_animation_counter = 0
+                self.current_obstacle2_image_index = (self.current_obstacle2_image_index + 1) % len(
+                    self.obstacle2_images)
+
+            # Atualizando a imagem atual do obstáculo
+            current_obstacle2 = self.obstacle2_images[self.current_obstacle2_image_index]
+            self.window.blit(current_obstacle2.image, current_obstacle2.rect)  # Renderizando o obstáculo
 
             # HUD de informações do jogo
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000: .1f}s', C_PURPLE, (10, 5))
@@ -109,6 +106,9 @@ class Level:
                 self.player.health -= 10  # Reduz a saúde do jogador
                 if self.player.health <= 0:
                     print("Game Over!")
+
+            # Atualização da tela
+            pygame.display.flip()
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.Font("./assets/LevelFont.ttf", text_size)

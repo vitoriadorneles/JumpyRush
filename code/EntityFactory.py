@@ -34,3 +34,4 @@ class EntityFactory:
                 for i in range(4):
                     obs_two_list.append(Obstacle(f'Obstacle2Img{i}', (WIN_WIDTH + 5, 200)))
                 return obs_two_list
+
