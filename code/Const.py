@@ -45,6 +45,28 @@ ENTITY_HEALTH = {
     'Level1Bg3': 999,
 }
 
+ENTITY_DAMAGE = {
+    'Player': 200,
+    'PlayerImg0': 10,
+    'PlayerImg1': 10,
+    'PlayerImg2': 10,
+    'PlayerImg3': 10,
+    'PlayerImg4': 10,
+    'PlayerImg5': 10,
+    'PlayerImg6': 10,
+    'PlayerImg7': 10,
+    'Obstacle1Img0': 20,
+    'Obstacle1Img1': 100,
+    'Obstacle2Img0': 15,
+    'Obstacle2Img1': 15,
+    'Obstacle2Img2': 15,
+    'Obstacle2Img3': 15,
+    'Level1Bg0': 0,
+    'Level1Bg1': 0,
+    'Level1Bg2': 0,
+    'Level1Bg3': 0,
+}
+
 
 
 # M

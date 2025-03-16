@@ -33,6 +33,7 @@ class Level:
         self.obstacle2_animation_counter = 0
 
         pygame.time.set_timer(EVENT_OBSTACLE, 3000)
+        self.entity_list.append(self.player)
 
     def run(self):
         pygame.mixer_music.load(f'./assets/{self.name}.mp3')
@@ -100,12 +101,10 @@ class Level:
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000: .1f}s', C_PURPLE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_PURPLE, (10, WIN_HEIGHT - 35))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_PURPLE, (10, WIN_HEIGHT - 20))
+            # Collisions
 
-            # Verificando colisões e integridade das entidades
-            if EntityMediator.check_collision(self.player, self.entity_list):
-                self.player.health -= 10  # Reduz a saúde do jogador
-                if self.player.health <= 0:
-                    print("Game Over!")
+            EntityMediator.verify_collision(entity_list=self.entity_list)
+            EntityMediator.verify_health(entity_list=self.entity_list)
 
             # Atualização da tela
             pygame.display.flip()
