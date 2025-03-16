@@ -21,14 +21,16 @@ class EntityMediator:
 
     @staticmethod
     def check_collision(player, obstacles):
-
         for obstacle in obstacles:
-            if isinstance(obstacle, Background):  # Se for Background, ignora
+            if isinstance(obstacle, Background):
                 continue
-            if obstacle.rect.right < 0:  # Ignora objetos que já saíram da tela
+            if obstacle.rect.right < 0:
                 continue
+            print(
+                f"🟢 Testando colisão: {obstacle.name} | Posição: {obstacle.rect.topleft} | Tamanho: {obstacle.rect.size}")
+
             if player.rect.colliderect(obstacle.rect):
-                print(f"🔥 Colisão com {obstacle.name}! Posição: {obstacle.rect} | Tamanho: {obstacle.rect.size}")
+                print(f"🔥 Colisão confirmada com {obstacle.name}!")
                 return True
         return False
 

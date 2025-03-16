@@ -15,16 +15,22 @@ class Game:
         # criando janela
         self.window = pygame.display.set_mode(size=(WIN_WIDTH, WIN_HEIGHT))
 
-    def run(self):
+    def show_main_menu(self):
+        menu = Menu(self.window)
+        menu.run()
 
+    def run(self):
         # window open
         while True:
             menu = Menu(self.window)
             menu_return = menu.run()
 
-            if menu_return == MENU_OPTION[0]:
-                level = Level(self.window, 'Level1', menu_return)
-                level_return = level.run()
+            if menu_return == MENU_OPTION[0]:  # Iniciar jogo
+                level = Level(self.window, 'Level1', self)
+                level_result = level.run()  # Espera a execução do jogo
+                if level_result == "game_over":
+                    continue  # Volta para o menu sem erro
+
             elif menu_return == MENU_OPTION[2]:
                 pygame.quit()
                 quit()
