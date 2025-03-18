@@ -1,3 +1,4 @@
+
 from code.Background import Background
 from code.Const import WIN_HEIGHT, WIN_WIDTH
 from code.Obstacle import Obstacle

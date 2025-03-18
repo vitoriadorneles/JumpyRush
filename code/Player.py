@@ -1,3 +1,4 @@
+
 import pygame
 
 from code.Const import WIN_HEIGHT, WIN_WIDTH
@@ -7,6 +8,7 @@ from code.Entity import Entity
 class Player(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
+        self.level = None
         self.name = name
         self.position = (25, WIN_HEIGHT - 130)
         self.image = pygame.image.load(f'./assets/{name}.png')
@@ -39,4 +41,3 @@ class Player(Entity):
             self.rect.centerx -= 5
         if pressed_key[pygame.K_RIGHT] and self.rect.right < WIN_WIDTH:
             self.rect.centerx += 5
-
