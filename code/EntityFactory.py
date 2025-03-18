@@ -28,9 +28,3 @@ class EntityFactory:
 
             case 'Obstacle1Img1':
                 return Obstacle('Obstacle1Img1', (WIN_WIDTH + 20, 200))
-
-            case 'Obstacle2Img':
-                obs_two_list = []
-                for i in range(4):
-                    obs_two_list.append(Obstacle(f'Obstacle2Img{i}', (WIN_WIDTH + 5, 200)))
-                return obs_two_list

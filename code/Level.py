@@ -50,6 +50,7 @@ class Level:
                     for sub_ent in ent:
                         self.window.blit(source=sub_ent.surf, dest=sub_ent.rect)
                         sub_ent.move()
+
                 else:
                     self.window.blit(source=ent.surf, dest=ent.rect)
                     ent.move()
@@ -82,29 +83,14 @@ class Level:
             current_player.rect.topleft = self.player.rect.topleft
             self.window.blit(current_player.image, current_player.rect)
 
-            for obs in self.obstacle2_images:
-                obs.rect.x -= 6
-                if obs.rect.left <= 0:
-                    obs.rect.x = WIN_WIDTH
-
-            self.obstacle2_animation_counter += 5
-            if self.obstacle2_animation_counter > 25:  # Ajuste o valor para controlar a velocidade da animação
-                self.obstacle2_animation_counter = 0
-                self.current_obstacle2_image_index = (self.current_obstacle2_image_index + 1) % len(
-                    self.obstacle2_images)
-
-            # Atualizando a imagem atual do obstáculo
-            current_obstacle2 = self.obstacle2_images[self.current_obstacle2_image_index]
-            self.window.blit(current_obstacle2.image, current_obstacle2.rect)  # Renderizando o obstáculo
-
             # HUD de informações do jogo
+
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000: .1f}s', C_PURPLE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_PURPLE, (10, WIN_HEIGHT - 35))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_PURPLE, (10, WIN_HEIGHT - 20))
             # Collisions
 
             EntityMediator.verify_collision(entity_list=self.entity_list)
-            EntityMediator.verify_health(entity_list=self.entity_list)
 
             # Atualização da tela
             pygame.display.flip()
