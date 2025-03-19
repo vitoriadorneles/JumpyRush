@@ -3,6 +3,7 @@ from code.Obstacle import Obstacle
 
 
 class EntityMediator:
+
     @staticmethod
     def verify_collision(entity_list):
         for entity in entity_list:

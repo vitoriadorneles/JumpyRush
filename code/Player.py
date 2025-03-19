@@ -8,14 +8,12 @@ from code.Entity import Entity
 class Player(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
-        self.level = None
         self.name = name
-        self.position = (25, WIN_HEIGHT - 130)
-        self.image = pygame.image.load(f'./assets/{name}.png')
+        self.image = pygame.image.load(f'./assets/{name}.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=position)
 
-        self.animation_time = 1
-        self.animation_speed = 50
+        # Criação da máscara para detecção pixel a pixel
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.jumping = False
         self.initial_position = (WIN_HEIGHT - 130)
@@ -28,12 +26,12 @@ class Player(Entity):
             if self.rect.y <= 80:
                 self.jumping = False
             self.rect.centery -= 7
-
         else:
             if self.rect.y < self.initial_position:
                 self.rect.y += 7
             else:
                 self.rect.y = self.initial_position
+
 
     def move(self):
         pressed_key = pygame.key.get_pressed()

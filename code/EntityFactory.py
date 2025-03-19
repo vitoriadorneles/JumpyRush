@@ -1,15 +1,11 @@
-
-from code.Background import Background
-from code.Const import WIN_HEIGHT, WIN_WIDTH
+from code.Const import WIN_WIDTH, WIN_HEIGHT
 from code.Obstacle import Obstacle
-
 from code.Player import Player
-
+from code.Background import Background
 
 class EntityFactory:
-
     @staticmethod
-    def get_entity(entity_name: str, position=(0, 0)):
+    def get_entity(entity_name: str, position=(0, 0), speed=5):
         match entity_name:
             case 'PlayerImg':
                 player_img = []
@@ -25,7 +21,14 @@ class EntityFactory:
                 return bg_list
 
             case 'Obstacle1Img0':
-                return Obstacle('Obstacle1Img0', (WIN_WIDTH + 50, 220))
+                obstacle = Obstacle('Obstacle1Img0', (WIN_WIDTH + 50, 220))
+                obstacle.speed = speed  # Define a velocidade do obstáculo
+                return obstacle
 
             case 'Obstacle1Img1':
-                return Obstacle('Obstacle1Img1', (WIN_WIDTH + 20, 200))
+                obstacle = Obstacle('Obstacle1Img1', (WIN_WIDTH + 20, 200))
+                obstacle.speed = speed  # Define a velocidade do obstáculo
+                return obstacle
+
+            case _:
+                raise ValueError(f"Entidade desconhecida: {entity_name}")
