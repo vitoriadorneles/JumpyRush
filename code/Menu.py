@@ -108,11 +108,12 @@ class Menu:
                     score, time_played = line.strip().split(',')
                     scores.append((int(score), float(time_played)))
 
-            # Retorna os últimos 3 scores
-            return scores[-3:] if len(scores) > 3 else scores
+                print(f"[DEBUG] Scores carregados: {scores}")
+                return scores[-3:] if len(scores) > 3 else scores
         except FileNotFoundError:
-            print("Arquivo de scores não encontrado. Nenhum score disponível.")
+            print("[DEBUG] Arquivo de scores não encontrado. Nenhum score disponível.")
             return []  # Retorna lista vazia se o arquivo não existir
         except Exception as e:
             print(f"Erro ao carregar scores: {e}")
             return []
+

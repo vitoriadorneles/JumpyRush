@@ -6,6 +6,7 @@ from code.Const import C_PURPLE, WIN_HEIGHT, WIN_WIDTH, EVENT_OBSTACLE
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from code.EntityMediator import EntityMediator
+from code.Menu import Menu
 from code.Obstacle import Obstacle
 from code.Player import Player
 
@@ -133,7 +134,10 @@ class Level:
 
         pygame.display.flip()
         pygame.time.wait(3000)  # Espera 3 segundos antes de retornar ao menu principal
-        self.save_score(self.score, self.game_time)
+
+        # Salvar score após o término do jogo
+        menu_instance = Menu(self.window)
+        menu_instance.save_score(self.score, self.game_time)
 
     def save_score(self, score, game_time):
         pass
