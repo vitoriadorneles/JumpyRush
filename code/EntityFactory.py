@@ -3,6 +3,7 @@ from code.Obstacle import Obstacle
 from code.Player import Player
 from code.Background import Background
 
+
 class EntityFactory:
     @staticmethod
     def get_entity(entity_name: str, position=(0, 0), speed=5):
