@@ -91,7 +91,7 @@ class Level:
             current_player.rect.topleft = self.player.rect.topleft
             self.window.blit(current_player.image, current_player.rect)
 
-            # Informações de HUD
+            # Informações
             self.level_text(14, f'{self.name} - Tempo: {self.game_time:.1f}s', C_PURPLE, (10, 5))  # Mostra tempo total
             self.level_text(14, f'Score: {self.score}', C_PURPLE,
                             (WIN_WIDTH - 120, 5))  # Mostra o score no canto superior

@@ -74,7 +74,7 @@ class Menu:
         self.window.blit(source=text_surf, dest=text_rect)
 
     def show_scores(self):
-        """Exibe os últimos três scores registrados na tela."""
+        # Exibe os últimos três scores registrados na tela.
         scores = self.load_scores()  # Carrega os scores do arquivo
 
         self.window.fill((0, 0, 0))  # Limpa a tela com preto
@@ -113,7 +113,5 @@ class Menu:
         except FileNotFoundError:
             print("[DEBUG] Arquivo de scores não encontrado. Nenhum score disponível.")
             return []  # Retorna lista vazia se o arquivo não existir
-        except Exception as e:
-            print(f"Erro ao carregar scores: {e}")
-            return []
+
 
