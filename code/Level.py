@@ -8,6 +8,7 @@ from code.EntityFactory import EntityFactory
 from code.EntityMediator import EntityMediator
 from code.Obstacle import Obstacle
 from code.Player import Player
+from code.Score import Score
 
 
 class Level:
@@ -161,3 +162,4 @@ class Level:
 
         # Save the player's score using Score class
         self.score_manager.save_score(self.score, self.game_time)
+        score_manager = Score()

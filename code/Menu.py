@@ -1,86 +1,152 @@
+import random
+import sys
 import pygame
-import pygame.image
-from pygame import Surface, Rect
-from pygame.font import Font
-from code.Const import WIN_WIDTH, WIN_HEIGHT, C_PURPLE, C_WHITE, C_BLACK, MENU_OPTION
-from code.Score import Score  # Import the Score class
+from pygame import KEYDOWN, K_SPACE
+from code.Const import C_PURPLE, WIN_HEIGHT, WIN_WIDTH, EVENT_OBSTACLE
+from code.Entity import Entity
+from code.EntityFactory import EntityFactory
+from code.EntityMediator import EntityMediator
+from code.Obstacle import Obstacle
+from code.Player import Player
 
 
-class Menu:
-    def __init__(self, window):
-        """Initialize the menu and its necessary resources."""
+class Level:
+    def __init__(self, window, name, score_manager):
+        """
+        Initialize the level settings.
+
+        Args:
+            window (Surface): Pygame window surface for rendering.
+            name (str): Level name (e.g., 'Level1').
+            score_manager (Score): Score manager instance for saving and loading scores.
+        """
         self.window = window
-        self.surf = pygame.image.load('./assets/MenuBg.png').convert_alpha()  # Load the background image
-        self.rect = self.surf.get_rect(left=0, top=0)  # Position the background
-        self.score_manager = Score()  # Instantiate the Score manager for handling scores
+        self.name = name
+        self.score_manager = score_manager
+
+        # Initialize entities and player
+        self.entity_list: list[Entity] = []
+        self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
+        self.player_images = EntityFactory.get_entity("PlayerImg")
+        self.player = Player("PlayerImg0", (25, WIN_HEIGHT - 130))
+        self.entity_list.append(self.player)
+
+        # Animation and score tracking
+        self.current_player_image_index = 0
+        self.animation_counter = 0
+        pygame.time.set_timer(EVENT_OBSTACLE, 3000)
+        self.score = 0
+        self.game_time = 0
+        self.score_update_counter = 0
 
     def run(self):
-        """Run the menu loop, allowing users to navigate and select options."""
-        menu_option = 0
-        # Load and play menu background music
-        pygame.mixer_music.load('./assets/Menu.mp3')
+        """Main game loop for the level."""
+        pygame.mixer_music.load(f'./assets/{self.name}.mp3')
         pygame.mixer_music.play(-1)
+        clock = pygame.time.Clock()
 
         while True:
-            # Render the menu background and title
-            self.window.blit(source=self.surf, dest=self.rect)
-            self.render_text(50, 'Jumpy', C_PURPLE, ((WIN_WIDTH / 2), 70))
-            self.render_text(50, 'Rush', C_PURPLE, ((WIN_WIDTH / 2), 120))
+            clock.tick(60)
+            self.window.fill((0, 0, 0))
 
-            # Render menu options dynamically
-            for i in range(len(MENU_OPTION)):
-                color = C_WHITE if i == menu_option else C_BLACK
-                self.render_text(20, MENU_OPTION[i], color, ((WIN_WIDTH / 2), 190 + 30 * i))
+            # Update game mechanics
+            self.update_score_and_time()
+            self.update_entities()
+            self.update_player_animation()
 
-            pygame.display.flip()  # Refresh the screen
+            # Handle events and process user input
+            if self.process_events() == "exit":
+                return "game_over"
 
-            # Handle user input for navigation and selection
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_DOWN:
-                        menu_option = (menu_option + 1) % len(MENU_OPTION)  # Move to next option
-                    elif event.key == pygame.K_UP:
-                        menu_option = (menu_option - 1) % len(MENU_OPTION)  # Move to previous option
-                    elif event.key == pygame.K_RETURN:
-                        # Handle user selection
-                        if MENU_OPTION[menu_option] == "SCORE":
-                            self.show_scores()  # Display the scores
-                        else:
-                            return MENU_OPTION[menu_option]  # Return selected option to the caller
+            # Render HUD
+            self.render_hud(clock)
 
-    def render_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
-        """Render and display text on the menu."""
-        font: Font = pygame.font.Font("./assets/MenuFont.ttf", text_size)
-        text_surf: Surface = font.render(text, True, text_color).convert_alpha()
-        text_rect: Rect = text_surf.get_rect(center=text_center_pos)
-        self.window.blit(source=text_surf, dest=text_rect)
+            pygame.display.flip()
 
-    def save_score(self, score, game_time):
-        try:
-            with open(self.scores_file, 'a') as file:
-                file.write(f'{score},{game_time:.1f}\n')  # Salva score e tempo no formato CSV
-            print(f"Score salvo com sucesso: {score}, tempo: {game_time:.1f}s")
-        except Exception as e:
-            print(f"Erro ao salvar o score: {e}")
+    def update_score_and_time(self):
+        """Update the score and game time dynamically."""
+        self.score_update_counter += 1
+        if self.score_update_counter >= 30:  # Every 0.5 seconds
+            self.score += 2
+            self.game_time += 0.5
+            self.score_update_counter = 0
 
-    def show_scores(self):
-        """Display the last three scores fetched from the Score class."""
-        scores = self.score_manager.load_scores(limit=3)  # Fetch the latest 3 scores from the database
+            if self.score % 10 == 0:  # Every 10 points, increase obstacle speed
+                for entity in self.entity_list:
+                    if isinstance(entity, Obstacle):
+                        entity.speed += 1
 
-        # Clear the screen and render the score header
+    def update_entities(self):
+        """Update the movement and rendering of entities."""
+        for entity in self.entity_list:
+            self.window.blit(entity.surf, entity.rect)
+            entity.move()
+
+    def update_player_animation(self):
+        """Update player animation and synchronize with position."""
+        self.player.updateJump()
+        self.animation_counter += 1
+        if self.animation_counter > 25:
+            self.animation_counter = 0
+            self.current_player_image_index = (self.current_player_image_index + 1) % len(self.player_images)
+
+        current_image = self.player_images[self.current_player_image_index]
+        current_image.rect.topleft = self.player.rect.topleft
+        self.window.blit(current_image.image, current_image.rect)
+
+    def process_events(self):
+        """Handle player input and game events."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN and event.key == K_SPACE:
+                self.player.jump()
+                jump_sound = pygame.mixer.Sound('./assets/JumpSong.mp3')
+                jump_sound.play()
+            if event.type == EVENT_OBSTACLE:
+                self.generate_obstacle()
+
+        if EntityMediator.verify_collision(self.entity_list) == "game_over":
+            self.show_game_over()
+            return "exit"
+
+    def generate_obstacle(self):
+        """Generate a new obstacle."""
+        obstacle_choice = random.choice(('Obstacle1Img0', 'Obstacle1Img1'))
+        obstacle_speed = 5 + (self.score // 10)
+        new_obstacle = EntityFactory.get_entity(obstacle_choice, speed=obstacle_speed)
+        self.entity_list.append(new_obstacle)
+
+    def render_hud(self, clock):
+        """Render heads-up display (HUD)."""
+        self.render_text(14, f'{self.name} - Time: {self.game_time:.1f}s', C_PURPLE, (10, 5))
+        self.render_text(14, f'Score: {self.score}', C_PURPLE, (WIN_WIDTH - 120, 5))
+        self.render_text(14, f'FPS: {clock.get_fps():.0f}', C_PURPLE, (10, WIN_HEIGHT - 35))
+        self.render_text(14, f'Entities: {len(self.entity_list)}', C_PURPLE, (10, WIN_HEIGHT - 20))
+
+    def render_text(self, text_size, text, color, position):
+        """Render text."""
+        font = pygame.font.Font("./assets/LevelFont.ttf", text_size)
+        text_surface = font.render(text, True, color).convert_alpha()
+        text_rect = text_surface.get_rect(left=position[0], top=position[1])
+        self.window.blit(text_surface, text_rect)
+
+    def show_game_over(self):
+        """Display the Game Over screen and save the player's score."""
         self.window.fill((0, 0, 0))
-        self.render_text(50, "Last Scores", C_PURPLE, ((WIN_WIDTH / 2), 50))
+        font = pygame.font.Font("./assets/LevelFont.ttf", 50)
+        game_over_text = font.render("Game Over", True, (255, 0, 0))
+        self.window.blit(game_over_text, game_over_text.get_rect(center=(WIN_WIDTH // 2, WIN_HEIGHT // 2 - 50)))
 
-        # Render scores or fallback message if no scores exist
-        if scores:
-            for i, (score, game_time) in enumerate(scores):
-                score_text = f"{i + 1}. Score: {score} - Time: {game_time:.1f}s"
-                self.render_text(30, score_text, C_WHITE, ((WIN_WIDTH / 2), 150 + 40 * i))
-        else:
-            self.render_text(30, "No scores available.", C_WHITE, ((WIN_WIDTH / 2), WIN_HEIGHT / 2))
+        score_font = pygame.font.Font("./assets/LevelFont.ttf", 30)
+        self.window.blit(score_font.render(f"Your Score: {self.score}", True, (255, 255, 255)),
+                         score_font.get_rect(center=(WIN_WIDTH // 2, WIN_HEIGHT // 2)))
+        self.window.blit(score_font.render(f"Game Time: {self.game_time:.1f}s", True, (255, 255, 255)),
+                         score_font.get_rect(center=(WIN_WIDTH // 2, WIN_HEIGHT // 2 + 50)))
 
         pygame.display.flip()
-        pygame.time.wait(3000)  # Wait 3 seconds before returning to the menu
+        pygame.time.wait(3000)
+        self.score_manager.save_score(self.score, self.game_time)
+
+
