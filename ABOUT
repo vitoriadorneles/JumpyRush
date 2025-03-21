@@ -1,0 +1,16 @@
+Nome: Vitória Natividade Ramos Dorneles de Oliveira
+RU: 4604971
+
+*** No jogo é possível usas as setas de DIREITA e ESQUERDA do teclado
+para que o personagem ande de um lado para o outro e com a tecla ESPAÇO
+o personagem pula, ele tambpém da um salto continuo se voce apertar mais
+de uma vez no espaço. ***
+
+*** Temos a opção Score no menu, onde irá ficar gravado os 3 ultimos
+scores das partidas, podendo sair e entrar que ele continuará gravado. ***
+
+*** Quando a partida encerra, a tela de GAME OVER  aparece por 3 segundos
+e depois some sozinha. Da mesma forma acontece com a tela do Score quando
+é consultado. ***
+
+*** A idéia do jogo é conseguir a maior pontuação possível. ***

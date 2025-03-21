@@ -96,7 +96,7 @@ class Level:
             self.level_text(14, f'Score: {self.score}', C_PURPLE,
                             (WIN_WIDTH - 120, 5))  # Mostra o score no canto superior
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_PURPLE, (10, WIN_HEIGHT - 35))
-            self.level_text(14, f'entidades: {len(self.entity_list)}', C_PURPLE, (10, WIN_HEIGHT - 20))
+
 
             # Verificar colisões
             collision_result = EntityMediator.verify_collision(entity_list=self.entity_list)
