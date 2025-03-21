@@ -58,14 +58,6 @@ class Menu:
         text_rect: Rect = text_surf.get_rect(center=text_center_pos)
         self.window.blit(source=text_surf, dest=text_rect)
 
-    def save_score(self, score, game_time):
-        try:
-            with open(self.scores_file, 'a') as file:
-                file.write(f'{score},{game_time:.1f}\n')  # Salva score e tempo no formato CSV
-            print(f"Score salvo com sucesso: {score}, tempo: {game_time:.1f}s")
-        except Exception as e:
-            print(f"Erro ao salvar o score: {e}")
-
     def show_scores(self):
         """Display the last three scores fetched from the Score class."""
         scores = self.score_manager.load_scores(limit=3)  # Fetch the latest 3 scores from the database
